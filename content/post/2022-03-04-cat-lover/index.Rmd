@@ -22,12 +22,12 @@ url <- 'https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/hotel
 hotels <- read_csv(url)
 names(hotels)
 ```
-
+## Looking at the data
 ```{r}
 glimpse(cat_lovers)
 ```
 
-
+## Computing the mean
 ```{r}
 cat_lovers %>%
   mutate(number_of_cats = case_when(
@@ -37,7 +37,7 @@ cat_lovers %>%
     )) %>%
   summarise(mean_cats = mean(number_of_cats))
 ```
-
+## Fixing up the data
 ```{r}
 cat_lovers <- cat_lovers %>%
   mutate(
@@ -50,12 +50,14 @@ cat_lovers <- cat_lovers %>%
     )
 ```
 
+## Examples of using the typeof function
 ```{r}
 typeof(1)
 typeof("a")
 typeof(c(1, "a"))
 ```
 
+## Plots
 ```{r}
 ggplot(cat_lovers, mapping = aes(x = handedness)) +
   geom_bar()
@@ -67,7 +69,7 @@ cat_lovers %>%
   ggplot(mapping = aes(x = handedness)) +
   geom_bar()
 ```
-
+## Plotting the arrival dates into hotels
 ```{r}
 hotels %>%
   select(starts_with("arrival_"))
@@ -111,7 +113,9 @@ hotels %>%
   mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %>% 
   count(arrival_date)
 ```
+## Plot of arrival date
 
+## Crazy looking plot
 ```{r}
 hotels %>%
   mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %>% 
@@ -119,7 +123,7 @@ hotels %>%
   ggplot(aes(x = arrival_date, y = n, group = 1)) +
   geom_line()
 ```
-
+## Pretty plot
 ```{r}
 hotels %>%
   mutate(arrival_date = ymd(glue("{arrival_date_year} {arrival_date_month} {arrival_date_day_of_month}"))) %>% 

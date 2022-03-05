@@ -1,0 +1,108 @@
+---
+title: A lot of NAs
+author: ''
+date: '2022-03-04'
+slug: a-lot-of-nas
+categories: []
+tags: []
+---
+
+```{r}
+library(tidyverse)
+library(readr)
+library(readxl)
+```
+
+
+```{r}
+url <- 'https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/nobel.csv'
+nobel <- read_csv(url)
+names(nobel)
+```
+
+```{r}
+df <- tribble(
+  ~x, ~y,
+  1,  "a",
+  2,  "b",
+  3,  "c"
+)
+write_csv(df, file = "df.csv")
+```
+
+```{r}
+read_csv("df.csv")
+```
+## Filtering out the stem categories
+```{r}
+nobel_stem <- (nobel %>% filter(category == "Physics" | category == "Medicine" | category == "Chemistry" | category == "Economics"))
+```
+
+##Nobel Stem
+```{r}
+nobel_stem
+```
+## Filtering out the non-stem
+```{r}
+nobel_nonstem <- (nobel %>% filter(!(category == "Physics" | category == "Medicine" | category == "Chemistry" | category == "Economics")))
+```
+## Non-stem
+```{r}
+nobel_nonstem
+```
+## Writing CSVs
+```{r}
+write_csv(nobel_stem, file = "nobel_stem.csv")
+write_csv(nobel_nonstem, file = "nobel_nonstem.csv")
+```
+
+
+
+```{r}
+url <- 'https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/edibnb-badnames.csv'
+edibnb_badnames <- read_csv(url)
+names(edibnb_badnames )
+```
+## Cleaning
+```{r}
+edibnb_col_names <- read_csv(url,
+                             col_names = c("id", "price", 
+                                           "neighbourhood", "accommodates",
+                                           "bathroom", "bedroom", 
+                                           "bed", "review_scores_rating", 
+                                           "n_reviews", "url"))
+names(edibnb_col_names)
+```
+
+```{r}
+edibnb_clean_names <- read_csv(url) %>%
+  janitor::clean_names()
+names(edibnb_clean_names)
+```
+
+```{r}
+read_csv("https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/df-na.csv", na = c("", "NA", ".", "9999", "Not applicable"))
+```
+
+```{r}
+read_csv("https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/df-na.csv", col_types = list(col_double(), 
+                                            col_character(), 
+                                            col_character()))
+```
+
+```{r}
+fav_food <- read_csv("https://raw.githubusercontent.com/BryanAviles-Lopez/tidyverse/main/favourite-food.csv", na = c("N/A", "99999")) %>%
+  janitor::clean_names() %>%
+  mutate(
+    age = if_else(age == "five", "5", age), 
+    age = as.numeric(age),
+    ses = fct_relevel(ses, "Low", "Middle", "High")
+  )
+fav_food
+```
+
+```{r}
+write_csv(fav_food, file = "fav-food-clean.csv")
+```
+
+
